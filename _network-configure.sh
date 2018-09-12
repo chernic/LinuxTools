@@ -1,6 +1,6 @@
 ﻿#!/bin/sh
 
-# @brief linux基本网络配置, 给初装的机器配置使用, 常手动配置
+# @Chernic : linux基本网络配置, 给初装的机器配置使用, 常手动配置
 # @changelog
 ## 2018-09-12 Chernic <chenyongl AT focustar.net>
 #- 增加changelog
