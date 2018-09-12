@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # @brief 将FreeSWITCH目录增加权限, 以使samba可访问
 
 # @changelog
