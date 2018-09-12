@@ -1,5 +1,7 @@
+#!/bin/bash
+
 # @brief 将FreeSWITCH目录增加权限, 以使samba可访问
 
-# changelog
+# @changelog
 ## 2018-09-12 Chernic <chenyongl AT focustar.net>
-- 增加changelog
+#- 增加changelog
