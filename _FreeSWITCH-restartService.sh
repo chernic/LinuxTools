@@ -1,4 +1,11 @@
 #!/bin/sh
+
+# @brief FreeSWITCH 等服务重启
+# @changelog
+## 2018-09-12 Chernic <chenyongl AT focustar.net>
+#- 增加changelog
+#- 临时使用, 可进一步修改
+
 #请使用
 chkconfig nmb         on
 chkconfig smb         on
