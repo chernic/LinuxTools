@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# @brief FreeSWITCH 等服务重启
+# @Chernic : FreeSWITCH 等服务重启
 # @changelog
 ## 2018-09-12 Chernic <chenyongl AT focustar.net>
 #- 增加changelog
