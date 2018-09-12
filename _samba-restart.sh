@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# @brief 重启samba
+# @Chernic : brief 重启samba
 # @changelog
 ## 2018-09-12 Chernic <chenyongl AT focustar.net>
 #- 增加changelog
