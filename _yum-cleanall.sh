@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# @Chernic : brief 清除yum缓存
+# @Chernic : 清除yum缓存
 # @changelog
 ## 2018-09-12 Chernic <chenyongl AT focustar.net>
 #- 增加changelog
