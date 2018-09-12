@@ -2,7 +2,7 @@
 
 # @Chernic : linux基本网络配置, 给初装的机器配置使用, 常手动配置
 # @changelog
-## 2018-09-12 Chernic <chenyongl AT focustar.net>
+## 2018-09-12 Chernic <chernic AT qq.com>
 #- 增加changelog
 
 echo "you maight not run this but just have a look"
