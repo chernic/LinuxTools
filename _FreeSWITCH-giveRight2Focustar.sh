@@ -2,7 +2,7 @@
 
 # @Chernic : 改变freeswitch权限, 使samba可访问
 # @changelog
-## 2018-09-12 Chernic <chenyongl AT focustar.net>
+## 2018-09-12 Chernic <chernic AT qq.com>
 #- 增加changelog
 
 ##
