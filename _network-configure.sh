@@ -2,6 +2,8 @@
 
 # @Chernic : linux基本网络配置, 给初装的机器配置使用, 常手动配置
 # @changelog
+## 2018-09-13 Chernic <chernic AT qq.com>
+#- 强调(必须修改项目)
 ## 2018-09-12 Chernic <chernic AT qq.com>
 #- 增加开机启动network
 #- 增加对外网的ping测试
@@ -18,9 +20,9 @@ HWADDR
 NETMASK
 IPADDR
 而且根据本公司环境必须配置
-GATEWAY
-DNS1
-DNS2
+GATEWAY   (必须)
+DNS1      (必须)
+DNS2      (必须)
 
 chkconfig network on
 service network restart
