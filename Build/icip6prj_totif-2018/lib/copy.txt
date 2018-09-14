@@ -1,0 +1,5 @@
+#cp /totif/icip6prj_totif/icip6_totif/TOTIF_SERVER/TOTIF/_inc/public/focucomm/focucommclient/liblinux/libfocucommclient.so
+
+# cp /totif/icip6prj_totif/icip6_totif/.build/LINUXexample.out/lib/libgs.so*                ./ghost/
+
+# cp /totif/icip6prj_totif/icip6_totif/.build/LINUXexample.out/lib/libboost_system*         ./boost/

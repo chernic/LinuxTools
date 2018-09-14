@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <!-- 本配置文件放置在应用程序所在目录的子目录(cfg目录)下-->
+    <!-- 本配置文件缺省路径在 utl_bootstrap.cxx 设置-->
+    <NetBus>
+        <!-- FocuComm 通讯服务器配置
+            commid          :   ToTif服务的应用程序ID
+            commname        :   ToTif服务的的名称
+            masterip        :   通讯主服务器名或IP地址
+            masterport      :   通讯主服务器的Tcp端口号
+            slaverip        :   通讯次服务器名或IP地址
+            salverport      :   通讯次服务器的Tcp端口号
+            udpport         :   通讯服务器的Udp端口号
+            forceregister   :   是否强行注册(0表示不，其他表示是)
+            virtualcommid   :   虚拟客户端编号，用于多个应用冗余,为0时不虚拟通信ID
+            policy          :   策略类型,Redundant、LoadBalancing、Broadcast
+            autoreconnect   :   是否自动重联(ture表示要自动重联,如果为false时,该函数则可以调用多次实现手动重联)
+            clientid        :   客户端ID
+        -->
+        <FocuComm
+            commid="888"
+            commname="TTF_SERVER"
+            masterip="192.168.1.215"
+            masterport="6789"
+            slaverip=""
+            salverport="65535"
+            udpport="65535"
+            forceregister="0"
+            virtualcommid="0"
+            policy="1"
+            autoreconnect="0"
+            clientid="0">
+        </FocuComm>
+
+        <MakeOnePartCall>
+            <!-- 详情请看 callinterface.h -->
+            <!-- CalledDevice 被叫设备
+                type            : 问丁经理 EU_DT_TRUNKGROUP 0 中继组/EU_DT_CHANNEL 1 中继/EU_DT_ADDRESS 2
+                span            : 问丁经理 uint16_t 
+                channel         : 问丁经理 unsigned char
+                trunkgroup      :         # str[50]
+                caller          : 主叫号码 # str[50]
+            -->
+            <CalledDevice
+                type="3"
+                span="-1"
+                channel="-1"
+                trunkgroup=""
+                caller="">
+            </CalledDevice>
+
+            <!-- OutVDNID 呼叫日志
+                vdnid           : 外呼时VDNID uint32_t 问丁经理
+            -->
+            <OutVDNID vdnid="111" />
+
+            <!-- CallLog 呼叫日志
+                llPID           :            uint64_t 问丁经理 默认-1
+                llParentPID     :            uint64_t 问丁经理 默认-1
+                CallType        : 呼叫类型    int16_t  问丁经理
+                CallDirection   : 呼叫方向    int16_t  问丁经理
+                VDNID           :            int16_t  问丁经理
+            -->
+            <CallLog
+                calltype="0"
+                calldirection="0"
+                vdnid="0">
+            </CallLog>
+
+            <!-- RouterNum
+                RouterNum       :         # str[50]   问丁经理
+            -->
+            <RouterNum routernum="" />
+        </MakeOnePartCall>
+
+        <!--
+            联接CCS服务的配置：
+            myid                :   CCS服务的通讯标识号
+        -->
+        <CCS myid ="1"/>
+
+        <!-- Monitor 监控服务器配置
+            monitormyid :       :   [预留,无效] ToTif监控服务的应用程序ID
+        -->
+        <Monitor monitormyid="31"/>
+
+    </NetBus>
+
+    <!-- DataBase 数据访问配置
+            datasource          :   odbc数据源
+            username            :   访问数据库的用户名
+            passwd              :   访问数据库的用户密码
+            connectkeepalive    :   [预留,无效] 是否保持长联接,true表示是,false表示不是
+            DataBasetype        :   数据类型,可取值为mysql,mssql,oracle
+            poolsize            :   [预留,无效] 缓冲池大小(取1到255的整数,默认为5个)
+            minthreadsize       :   [预留,无效] 最小线程数
+            maxthreadsize       :   [预留,无效] 最大线程数
+        -->
+    <DataBase
+        datasource="FOCUS_TOTIF"
+        username="root"
+        passwd="focustar"
+        connectkeepalive="true"
+        databasetype="mysql"
+        poolsize="5"
+        minthreadsize="4"
+        maxthreadsize="16" >
+    </DataBase>
+
+    <!-- Log 日志文件配置
+            style               :   [预留, 无效] FILE,CONSOLE,BOTH，分别表示仅输出到文件、仅输出到控制台、同时输出到文件和控制台
+            level               :   [预留, 无效] DEBUG,INFO,ALARM,ERROR 日志级别
+            cache               :   [预留, 无效] 是否启用缓存，yes:启用（可有效减少磁盘io操作）; no:不启用
+                如果不启用缓存则日志直接刷新到文件。测试时可以设为no,正式上线可以改为yes。
+        -->
+    <Log style="BOTH" level="DEBUG" cache="YES" >
+    </Log>
+
+    <!-- LibreOffice LibreOffice链接设置
+            LIBREOFFICE_CONN    :   LibreOffice链接以此设置为准, 保留默认设置, 一般不修改
+            ConnectionMethod    :   [预留, 无效] 设置项细分
+        -->
+    <LibreOffice>
+        <LIBREOFFICE_CONN string="uno:socket,host=localhost,port=8100;urp;StarOffice.ServiceManager" />
+        <ConnectionMethod mode="uno">
+            <!-- LibreOffice服务连接方式
+                socket => 套接字方式
+            -->
+            <Uno conn="socket">
+                <!-- LibreOffice 服务IP地址 [Server (address) to listen on (as listener) or to connect to (as client).]
+                    localhost => 本地服务器
+                -->
+                <Host host="localhost"/>
+                <!-- LibreOffice 服务通信端口设置
+                    portnum     :   通信端口 [Port to listen on (as listener) or to connect to (as client).]
+                        8100 => 默认端口
+                    portptl     :   通信协议
+                        urp => UNO 远程协议 [UNO Remote Protocol (URP). A binary protocol.]
+                    PortServer  :
+                        StarOffice.ServiceManager =>
+                        StarOffice.ComponentContext =>
+                -->
+                <Port portnum="8100" portptl="urp" portsev="StarOffice.ServiceManager" />
+          </Uno>
+        </ConnectionMethod>
+    </LibreOffice>
+
+    <!-- Directory 数据访问配置
+            dir_base            :   应用程序所在目录,提供其他目录做参考系  默认为/var/www
+            dir_baselog         :   [预留, 无效] 日志所在目录固定为 文件
+            dir_baseusr         :   [预留, 默认] 用户
+            dir_baseusrtst:     :   [预留, 无效] 用户测试目录
+            dir_baseusrfileinn  :   [按需  配置] 用户文件输入目录  本例存放转换好的输入 doc/txt/ppt等文件所在的目录
+            dir_baseusrfiletmp  :   [按需  配置] 用户文件缓存目录 
+            dir_baseusrfileout  :   [按需  配置] 用户文件输出目录  本例存放转换好的最终文件 tif文件(MD5值为名)所在的目录
+            
+            dir_protocol        :   [按需  配置] http  是使用 dir_http_url  作为文件输入路径(远程访问)
+                                                local 是使用 dir_local_url 作为文件输入路径
+            dir_http_url        :   [按需  配置] 如 http://192.168.1.203:8080/FaxReivSend/upload/fax
+            dir_local_url       :   [按需  配置] 如 /home/focustar/apache-tomcat-6.0.37/webapps/FaxReivSend/upload/fax/
+            
+            dir_save_protocol   :               system_scp  system( sshpass scp 192.168.1.203:/${dir_local_save} )
+                                                system_ssh
+                                                libscp
+                                                libssh
+        -->
+
+    <Directory
+        dir_base="."
+        dir_baselog="./log"
+        dir_baseusr="./usr"
+        dir_baseusrtst="./usr/tst"
+        dir_baseusrfileinn="./usr/fileinn"
+        dir_baseusrfiletmp="./usr/filetmp"
+        dir_baseusrfileout="./usr/fileout"
+
+        dir_protocol="local"
+
+        dir_http_url="http://192.168.1.203:8080/FaxReivSend/"
+        dir_ftp_url="ftp://192.168.1.203/FaxReivSend/"
+        dir_local_url="/home/focustar/apache-tomcat-6.0.37/webapps/FaxReivSend/"
+
+        dir_save_protocol="local"
+        dir_web_server_ip="192.168.1.215"
+        dir_web_server_user="root"
+        dir_web_server_password="focustar"
+        dir_web_server_save="/home/focustar/icip6/fax/"
+
+        dir_http_save="http://192.168.1.203:8080/FaxReivSend/upload/fax/"
+        dir_ftp_save="ftp://192.168.1.203/FaxReivSend/"
+        dir_local_save="/home/focustar/icip6/fax/"
+        >
+
+    <!-- 
+        dir_http_url="http://192.168.1.203:8080/FaxReivSend/upload/fax"错了
+        203 : fs*cpp@203
+        215 : Focustar@215
+        -->
+    </Directory>
+
+
+    <!-- FileIO 数据访问配置
+            max_threads         :   [预留,无效] 文件拷贝的最大线程数(默认为1) 大于2暂时非线程安全
+            
+        -->
+    <FileIO
+        max_threads="1">
+    </FileIO>
+
+</Configuration>
