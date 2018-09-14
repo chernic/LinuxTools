@@ -1,0 +1,170 @@
+# CentOS-6-Focustar
+#
+# The mirror system uses the connecting IP address of the client and the
+# update status of each mirror to pick mirrors that are updated to and
+# geographically close to the client.  You should use this for CentOS updates
+# unless you are manually picking other mirrors.
+#
+# If the mirrorlist= does not work for you, as a fall back you can try the 
+# remarked out baseurl= line instead.
+#
+
+#################################################################################################
+# ☆ 说明
+#################################################################################################
+#
+##使用方法如下：
+# 使用yum指令下载, 欲匹配由Chernic维护的本文件(CentOSX-Focustar.conf)的镜像地址
+# 其中Focustar-      标识远程下载, 
+# 其中Focustar-Local 标识本地文件, baseurl=file:// 则不可使用 --downloadonly 命令下载
+# 
+##镜像命名规则如下:
+# 所有镜像            通配符格式为: Focustar-*            如此类推...
+# yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*
+#
+# 所有镜像 Tsinghua 通配符格式为: Focustar-Tsinghua-*  如此类推...
+# yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-Tsinghua-* 
+#
+# 所有镜像 base       通配符格式为: Focustar-*-base      如此类推...
+# yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*-base1
+#
+# 稍后将考虑使用mirrorlist
+#
+#################################################################################################
+# ☆ 测试
+#################################################################################################
+# yum clean all;yum makecache;yum repolist;
+# 1 清除所有Focustar仓库缓存 【清理一切】
+# 2 建立所有Focustar仓库缓存 【元数据缓存已建立】
+# 3 罗列所有Focustar仓库可用 【仓库标识 仓库名称 状态】
+# yum clean all --disablerepo=\* --enablerepo=Focustar-*;yum makecache --disablerepo=\* --enablerepo=Focustar-*;yum repolist --disablerepo=\* --enablerepo=Focustar-*
+
+# 测试命名规则, 应显示三次"可安装的软件包"
+# yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*;yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-Netease163-*;yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*-base
+
+# 测试命名规则, 应显示三次"错误：没有匹配的软件包可以列出"
+# yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*1;yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-Netease163-*1;yum info mysql --downloadonly --downloaddir=. --disablerepo=\* --enablerepo=Focustar-*-base1
+#
+#################################################################################################
+# ☆ 更新说明
+#################################################################################################
+#
+# Chernic AT Focustar: 2018-08-28 首次创建本文件
+# Chernic AT Focustar: 2018-08-28 增加 Netease163(mirrors.tuna.tsinghua.edu.cn)并通过测试
+# Chernic AT Focustar: 2018-08-28 增加 Tsinghua(mirrors.tuna.tsinghua.edu.cn)并通过测试
+
+# 本文件将国内所有可用包含最新CentOS镜像 的链接地址汇集, 当前可支持
+# 1 [Focustar-Netease163] http://mirrors.163.com              网易开源镜像站
+#   gpgkey文件       wget http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6
+#   repo  文件       wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
+#   提供centos版本标识     http://mirrors.163.com/centos/6/os/i386/Packages/centos-release-6-10.el6.centos.12.3.i686.rpm
+#   提供centos版本标识     http://mirrors.163.com/centos/6/os/x86_64/Packages/centos-release-6-10.el6.centos.12.3.x86_64.rpm
+
+# 2 [Focustar-Tsinghua]   http://mirrors.tuna.tsinghua.edu.cn 清华大学开源软件镜像站
+#   gpgkey文件       wget http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+#   repo  文件       wget http://mirrors.tuna.tsinghua.edu.cn/.help/CentOS6-Base-163.repo
+#   提供centos版本标识     http://mirrors.tuna.tsinghua.edu.cn/centos/6/os/i386/Packages/centos-release-6-10.el6.centos.12.3.i686.rpm 
+#   提供centos版本标识     http://mirrors.tuna.tsinghua.edu.cn/centos/6/os/x86_64/Packages/centos-release-6-10.el6.centos.12.3.i686.rpm
+
+
+# http://mirror.bit.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.neusoft.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.shu.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.cn99.com/centos/6.10/isos/x86_64/
+# http://mirrors.cqu.edu.cn/CentOS/6.10/isos/x86_64/
+# http://mirrors.nwsuaf.edu.cn/centos/6.10/isos/x86_64/
+# http://mirror.lzu.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.huaweicloud.com/repository/centos/6.10/isos/x86_64/
+# http://centos.ustc.edu.cn/centos/6.10/isos/x86_64/
+#   http://mirrors.aliyun.com/centos/6.10/isos/x86_64/
+#   http://mirrors.163.com/centos/6.10/isos/x86_64/
+#   http://mirrors.tuna.tsinghua.edu.cn/centos/6.10/isos/x86_64/
+# http://ftp.sjtu.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.njupt.edu.cn/centos/6.10/isos/x86_64/
+# http://mirrors.zju.edu.cn/centos/6.10/isos/x86_64/
+
+
+#################################################################################################
+# ☆ 网易开源镜像站
+#################################################################################################
+[Focustar-Netease163-base]
+name=Focustar gets CentOS-6-Base    from Netease163(mirrors.163.com)
+baseurl=http://mirrors.163.com/centos/6/os/$basearch/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+enabled=1
+
+#released updates 
+[Focustar-Netease163-updates]
+name=Focustar gets CentOS-6-Updates from Netease163(mirrors.163.com)
+baseurl=http://mirrors.163.com/centos/6/updates/$basearch/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+enabled=1
+
+#additional packages that may be useful
+[Focustar-Netease163-extras]
+name=Focustar gets CentOS-6-Extras  from Netease163(mirrors.163.com)
+baseurl=http://mirrors.163.com/centos/6/extras/$basearch/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+enabled=1
+
+#additional packages that extend functionality of existing packages
+[Focustar-Netease163-centosplus]
+name=Focustar gets CentOS-6-Plus    from Netease163(mirrors.163.com)
+baseurl=http://mirrors.163.com/centos/6/centosplus/$basearch/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#contrib - packages by Centos Users
+[Focustar-Netease163-contrib]
+name=Focustar gets CentOS-6-Contrib from Netease163(mirrors.163.com)
+baseurl=http://mirrors.163.com/centos/6/contrib/$basearch/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#################################################################################################
+# ☆ 清华大学开源软件镜像站
+#################################################################################################
+[Focustar-Tsinghua-base]
+name=Focustar gets CentOS-6-Base    from Tsinghua(tuna.tsinghua.edu.cn)
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/centos/6/os/$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#released updates 
+[Focustar-Tsinghua-updates]
+name=Focustar gets CentOS-6-Updates from Tsinghua(tuna.tsinghua.edu.cn)
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/centos/6/updates/$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#additional packages that may be useful
+[Focustar-Tsinghua-extras]
+name=Focustar gets CentOS-6-Extras  from Tsinghua(tuna.tsinghua.edu.cn)
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/centos/6/extras/$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#additional packages that extend functionality of existing packages
+[Focustar-Tsinghua-centosplus]
+name=Focustar gets CentOS-6-Plus    from Tsinghua(tuna.tsinghua.edu.cn)
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/centos/6/centosplus/$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
+#contrib - packages by Centos Users
+[Focustar-Tsinghua-contrib]
+name=Focustar gets CentOS-6-Contrib from Tsinghua(tuna.tsinghua.edu.cn)
+baseurl=http://mirrors.tuna.tsinghua.edu.cn/centos/6/contrib/$basearch/
+gpgcheck=1
+gpgkey=http://mirrors.tuna.tsinghua.edu.cn/centos/RPM-GPG-KEY-CentOS-6
+enabled=0
+
