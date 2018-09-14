@@ -39,7 +39,7 @@ cd /tmp
 tar xvf /usr/lib/vmware/modules/source/vmmon.tar
 
 echo "make vmmon.ko"
-cd vmmon-only/
+cd /tmp/vmmon-only/
 make
 
 echo "copy vmmon.ko"
@@ -53,6 +53,8 @@ cat > /etc/sysconfig/modules/vmmon.modules  <<EOF
 if [ $? -eq 0 ]; then
     /sbin/modprobe vmmon
 fi
+
+vmware-modconfig --console --install-all
 
 EOF
 
