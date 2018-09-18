@@ -1,16 +1,27 @@
-Summary: icip6prj_totif
+Summary: icip6prj_totif 
 Name: icip6prj_totif
 Version: 2018
-Release: 9.14.el6.focustar
+Release: 9.18.el6.focustar
 License: GPL
 URL: http://www.focustar.net
 Source: %{name}.tar.gz
-Group: FOCUSTAR/Department3/Chernic/icip6prj_totif
+Group: FOCUSTAR/Department3/Chernic
 BuildRoot: %{_tmppath}/%{name}-root
 # Prefix: %{_prefix} = /usr
 Prefix: /home/focustar/icip6prj_totif
 Packager: Chernic : chernic AT qq.com
 AutoReqProv:no
+Requires: libreoffice-base              >=4.3.7.2
+Requires: libreoffice-calc              >=4.3.7.2
+Requires: libreoffice-draw              >=4.3.7.2
+Requires: libreoffice-impress           >=4.3.7.2
+Requires: libreoffice-writer            >=4.3.7.2
+Requires: libreoffice-core              >=4.3.7.2
+Requires: libreoffice-headless          >=4.3.7.2
+Requires: libreoffice-opensymbol-fonts  >=4.3.7.2
+Requires: libreoffice-ure               >=4.3.7.2
+Requires: libreoffice-sdk               >=4.3.7.2
+
 Requires: glibc >= 2.12
 Requires: nss-softokn-freebl >= 3.14.3
 Requires: ghostscript-devel >= 8.70
@@ -45,6 +56,8 @@ rm -rf %{buildroot}
 /usr/local/chernix/ghostscript
 
 %changelog
+* Tue Sep 18 2018 Chernic <chernic AT qq.com>
+- 增肌 LibreOffice 依赖
 * Fri Sep 14 2018 Chernic <chernic AT qq.com>
 - 增加 ghostscript-devel 依赖说明
 - 增加 ImageMagick-devel 依赖说明
