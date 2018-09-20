@@ -5,17 +5,12 @@ Release: 9.18.el6.focustar
 License: GPL
 URL: http://www.focustar.net
 Source: %{name}.tar.gz
-<<<<<<< HEAD
 Group: FOCUSTAR/Chernic
-=======
-Group: FOCUSTAR/Department3/Chernic
->>>>>>> b3b9ceead68f4bc2376b011cbe712e20772b3e5c
 BuildRoot: %{_tmppath}/%{name}-root
 # Prefix: %{_prefix} = /usr
 Prefix: /home/focustar/icip6prj_totif
 Packager: Chernic : chernic AT qq.com
 AutoReqProv:no
-<<<<<<< HEAD
 
 Requires: libreoffice-base >= 4.3.7.2
 Requires: libreoffice-calc >= 4.3.7.2
@@ -27,18 +22,7 @@ Requires: libreoffice-headless >= 4.3.7.2
 Requires: libreoffice-opensymbol-fonts >= 4.3.7.2
 Requires: libreoffice-ure >= 4.3.7.2
 Requires: libreoffice-sdk >= 4.3.7.2
-=======
-Requires: libreoffice-base              >=4.3.7.2
-Requires: libreoffice-calc              >=4.3.7.2
-Requires: libreoffice-draw              >=4.3.7.2
-Requires: libreoffice-impress           >=4.3.7.2
-Requires: libreoffice-writer            >=4.3.7.2
-Requires: libreoffice-core              >=4.3.7.2
-Requires: libreoffice-headless          >=4.3.7.2
-Requires: libreoffice-opensymbol-fonts  >=4.3.7.2
-Requires: libreoffice-ure               >=4.3.7.2
-Requires: libreoffice-sdk               >=4.3.7.2
->>>>>>> b3b9ceead68f4bc2376b011cbe712e20772b3e5c
+
 
 Requires: glibc >= 2.12
 Requires: nss-softokn-freebl >= 3.14.3
@@ -61,8 +45,13 @@ make clean   DESTDIR=%{buildroot}  prefix=%{prefix}
 make         DESTDIR=%{buildroot}  prefix=%{prefix}
 make install DESTDIR=%{buildroot}  prefix=%{prefix}
 
+%post
+chkconfig --add focustar_totif
+chkconfig --level 345 focustar_totif on
+
 %preun
 [ -f /etc/init.d/focustar_totif ] && service focustar_totif stop
+chkconfig --del focustar_totif
 echo
 
 %clean
@@ -75,13 +64,9 @@ rm -rf %{buildroot}
 
 %changelog
 * Tue Sep 18 2018 Chernic <chernic AT qq.com>
-<<<<<<< HEAD
 - 增肌 LibreOffice 依赖说明
 - 限定 ghostscript-devel 依赖版本
 - 关闭 focustar_totif 前先检测是否存在该脚本
-=======
-- 增肌 LibreOffice 依赖
->>>>>>> b3b9ceead68f4bc2376b011cbe712e20772b3e5c
 * Fri Sep 14 2018 Chernic <chernic AT qq.com>
 - 增加 ghostscript-devel 依赖说明
 - 增加 ImageMagick-devel 依赖说明

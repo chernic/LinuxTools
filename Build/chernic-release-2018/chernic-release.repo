@@ -1,0 +1,6 @@
+# chernic-release.repo
+
+[chernic-release]
+name=chernic-release
+baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
+enabled=0
