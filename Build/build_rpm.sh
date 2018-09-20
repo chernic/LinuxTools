@@ -1,6 +1,8 @@
 #!/bin/sh
-# @Chernic : 在运行rpmbuild -ba之前收集并整理相关变量
+# @Chernic : 在运行rpmbuild -ba
 # @changelog
+## 2018-09-20 Chernic <chernic AT qq.com>
+# 自动创建并拷贝rpm到 RPMS/el6.x86_64 目录
 ## 2018-09-13 Chernic <chernic AT qq.com>
 # 增加 将rpm包拷到当前目录
 # 增加 多rpm包匹配
@@ -97,7 +99,16 @@ cd ${RPMTOP}/SPECS && [ -z ${_SpecFile} ] && echo "ERROR : ${_SpecFile} = is NOT
 rpmbuild -ba  ${_SpecFile} --define="_topdir ${RPMTOP}"
 
 cd -
-cp -v  ${RPMTOP}/RPMS/${SYS_FLAG}/${_Name}-*${_Version}-*.rpm   .
+arch=$(uname -m)
+ver=$(uname -r | cut -d. -f4)
+path=${ver}.${arch}
+
+mkdir -m 755 -p         RPMS/${path}
+chown focustar:focustar RPMS/${path}
+
+cp -v  ${RPMTOP}/RPMS/${SYS_FLAG}/${_Name}-*${_Version}-*.rpm   ./RPMS/${path}/
+chown focustar:focustar ./RPMS/${path}/${_Name}-*${_Version}-*.rpm
+chmod 644               ./RPMS/${path}/${_Name}-*${_Version}-*.rpm
 
 # 可能不能有效删除
 # rpm -e icip6prj_totif --noscripts
