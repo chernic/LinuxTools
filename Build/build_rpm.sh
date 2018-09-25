@@ -26,7 +26,7 @@ echo -e "Usage Example CareFully: ${0##*/} -fnmc -i -d <DIR> "
 exit 0
 }
 
-TEMP=`getopt -o HVvG:d: --long help,version,visible,DEBUG:,dirname: -- "$@" 2>/dev/null`
+TEMP=`getopt -o HVvfG:d: --long help,version,visible,force,DEBUG:,dirname: -- "$@" 2>/dev/null`
 [ $? != 0 ] && echo -e "\033[31mERROR: unknown argument! \033[0m\n" && show_help && exit 1
 eval set -- "$TEMP"
 while :

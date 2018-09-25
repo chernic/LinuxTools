@@ -1,7 +1,7 @@
 Summary: icip6prj_totif 
 Name: icip6prj_totif
 Version: 2018
-Release: 9.18.el6.focustar
+Release: 9.21.focustar.el6
 License: GPL
 URL: http://www.focustar.net
 Source: %{name}.tar.gz
@@ -24,6 +24,7 @@ Requires: libreoffice-ure >= 4.3.7.2
 Requires: libreoffice-sdk >= 4.3.7.2
 
 
+Requires: /etc/odbc.ini
 Requires: glibc >= 2.12
 Requires: nss-softokn-freebl >= 3.14.3
 Requires: ghostscript-devel = 8.70
@@ -63,6 +64,8 @@ rm -rf %{buildroot}
 /usr/local/chernix/ghostscript
 
 %changelog
+* Fri Sep 21 2018 Chernic <chernic AT qq.com>
+- 增加UnixOdbc的依赖
 * Tue Sep 18 2018 Chernic <chernic AT qq.com>
 - 增肌 LibreOffice 依赖说明
 - 限定 ghostscript-devel 依赖版本
