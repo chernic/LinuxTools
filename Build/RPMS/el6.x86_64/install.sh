@@ -52,10 +52,12 @@ LOG_WARN "" $LogFile;
 LOG_WARN "Step 0.1" $LogFile;
 LOG_WARN "----------------------------------------------------------------------------------" $LogFile;
 LOG_WARN "Check yum" $LogFile;
-
+command -v yum;
 if [ $? != 0 ]; then
    LOG_ERROR  "无法找到yum, 请先配置好yum" $LogFile;
    exit
+else
+   echo ""
 fi
 #######################################################################################################
 exit 
