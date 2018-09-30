@@ -18,10 +18,14 @@ install:
 	# [开始]
 	mkdir -p $(DESTDIR)$(prefix_yum__repos_d)
 
+	$(INSTALL_DATA) chernic-release-disable $(DESTDIR)/usr/sbin/chernic-release-disable
+	$(INSTALL_DATA) chernic-release-enable  $(DESTDIR)/usr/sbin/chernic-release-enable
 	$(INSTALL_DATA) chernic-release         $(DESTDIR)$(prefix)/chernic-release
 	$(INSTALL_DATA) chernic-release.repo    $(DESTDIR)$(prefix)/yum.repos.d/chernic-release.repo
 
 clean:
+	rm  -f $(DESTDIR)/usr/sbin/chernic-release-disable
+	rm  -f $(DESTDIR)/usr/sbin/chernic-release-enable
 	rm  -f $(DESTDIR)$(prefix)/etc/chernic-release
 	rm  -f $(DESTDIR)$(prefix)/yum.repos.d/chernic-release.repo
 

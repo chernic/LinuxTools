@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# @Chernic : chernic-release-disable
+# @changelog
+## 2018-09-30 Chernic <chernic AT qq.com>
+#  可以开启chernic-release.repo
+
+runCheckcommandyum(){
+    echo "" $LogFile;
+    echo " ********************************************************" $LogFile;
+    echo " * Checkcommand yum" $LogFile;
+    echo " *" $LogFile;
+    Checkcommand yum;
+    if [ $? != 0 ]; 
+    then 
+        LOG_ERROR "yum is not installed" $LogFile; 
+        exit 0;
+    fi
+};
+runCheckcommandyum;
+
+sedchernic_release_repo(){
+    echo "" $LogFile;
+    echo " ********************************************************" $LogFile;
+    echo " * sed /etc/yum.repos.d/${REPO}" $LogFile;
+    echo " *" $LogFile;
+
+    #yum clean all;yum makecache;yum repolist;
+    REPO=chernic-release.repo
+    if [ -f /etc/yum.repos.d/${REPO} ];then
+        LOG_INFO "sed /etc/yum.repos.d/${REPO} : " $LogFile;
+        LOG_WARN "  enabled=0" $LogFile;
+        sed -i "s@^enabled.*@enabled=0@"                /etc/yum.repos.d/${REPO}
+    fi
+};
+sedchernic_release_repo $1;
+yum repolist

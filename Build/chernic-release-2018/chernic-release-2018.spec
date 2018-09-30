@@ -4,7 +4,7 @@
 Summary: to Release chernic.repo
 Name: chernic-release
 Version: 2018
-Release: 09.20.el6
+Release: 09.30.el6
 License: GPL
 #URL:
 Source: %{name}.tar.gz
@@ -40,9 +40,14 @@ rm -rf %{buildroot}
 
 %files
 %defattr (-, focustar, focustar)
+%{_sbindir}/chernic-release-disable
+%{_sbindir}/chernic-release-enable
 %{_sysconfdir}/chernic-release
 %{_sysconfdir}/yum.repos.d/chernic-release.repo
 
 %changelog
+* Sun Sep 30 2018 Chernic <iamchernic AT gmail.com>
+- 增加chernic-release-disable
+- 增加chernic-release-enable
 * Thu Sep 20 2018 Chernic <iamchernic AT gmail.com>
 - 修改完成
