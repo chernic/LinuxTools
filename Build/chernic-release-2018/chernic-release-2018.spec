@@ -28,6 +28,7 @@ This package is to Release chernic.repo
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sysconfdir}/yum.repos.d/
+mkdir -p %{buildroot}%{_sbindir}
 make clean   DESTDIR=%{buildroot}  prefix=%{prefix}
 make         DESTDIR=%{buildroot}  prefix=%{prefix}
 make install DESTDIR=%{buildroot}  prefix=%{prefix}
@@ -49,5 +50,6 @@ rm -rf %{buildroot}
 * Sun Sep 30 2018 Chernic <iamchernic AT gmail.com>
 - 增加chernic-release-disable
 - 增加chernic-release-enable
+- 测试完毕
 * Thu Sep 20 2018 Chernic <iamchernic AT gmail.com>
 - 修改完成
