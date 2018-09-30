@@ -1,6 +1,9 @@
 #!/bin/sh
 # @Chernic : 在运行rpmbuild -ba
 # @changelog
+## 2018-09-30 Chernic <chernic AT qq.com>
+#- 完善系统变量获取, 以支持i686
+#- 增加无focustar时的判断
 ## 2018-09-20 Chernic <chernic AT qq.com>
 # 自动创建并拷贝rpm到 RPMS/el6.x86_64 目录
 ## 2018-09-13 Chernic <chernic AT qq.com>
@@ -99,16 +102,13 @@ cd ${RPMTOP}/SPECS && [ -z ${_SpecFile} ] && echo "ERROR : ${_SpecFile} = is NOT
 rpmbuild -ba  ${_SpecFile} --define="_topdir ${RPMTOP}"
 
 cd -
-arch=$(uname -m)
-ver=$(uname -r | cut -d. -f4)
-path=${ver}.${arch}
 
-mkdir -m 755 -p         RPMS/${path}
-chown focustar:focustar RPMS/${path}
+mkdir -m 755 -p         RPMS/${system_flag}
+id focustar && chown focustar:focustar RPMS/${system_flag}
 
-cp -v  ${RPMTOP}/RPMS/${SYS_FLAG}/${_Name}-*${_Version}-*.rpm   ./RPMS/${path}/
-chown focustar:focustar ./RPMS/${path}/${_Name}-*${_Version}-*.rpm
-chmod 644               ./RPMS/${path}/${_Name}-*${_Version}-*.rpm
+cp -v  ${RPMTOP}/RPMS/${sys_arch}/${_Name}-*${_Version}-*.rpm   ./RPMS/${system_flag}/
+id focustar && chown focustar:focustar ./RPMS/${system_flag}/${_Name}-*${_Version}-*.rpm
+chmod 644               ./RPMS/${system_flag}/${_Name}-*${_Version}-*.rpm
 
 # 可能不能有效删除
 # rpm -e icip6prj_totif --noscripts
