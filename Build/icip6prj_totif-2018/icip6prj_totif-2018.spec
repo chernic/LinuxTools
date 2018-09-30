@@ -23,7 +23,6 @@ Requires: libreoffice-opensymbol-fonts >= 4.3.7.2
 Requires: libreoffice-ure >= 4.3.7.2
 Requires: libreoffice-sdk >= 4.3.7.2
 
-
 Requires: /etc/odbc.ini
 Requires: glibc >= 2.12
 Requires: nss-softokn-freebl >= 3.14.3
