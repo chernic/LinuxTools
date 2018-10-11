@@ -10,7 +10,18 @@
 # 增加 将rpm包拷到当前目录
 # 增加 多rpm包匹配
 
-show_help(){
+__RunnDir=$(dirname $0) && cd $__RunnDir;
+__THisDir=$(pwd)
+
+function checkCommand(){
+    LOG_INFO ""
+    command -v $1  # 此命令支持空输入, 不必再次检查
+    if [ $? != 0 ]; then
+        LOG_INFO "error: $1 is not installed"
+        return 1
+    fi
+}
+function show_help(){
 echo -e "`printf %-16s "Usage          " ` : "${0##*/}"[OPTIONS] [FILE_DIR]"
 echo -e "`printf %-16s "[OPTIONS]"       ` What OPTIONS Has Done[FILE_DIR]"
 echo
@@ -70,7 +81,7 @@ done
 # 加载系统参数(不知为什么 CentOS6 需要 ./ )
 source  ./build_rpm.conf
 
-[ -z ${_DirName} ] && echo "ERROR : DirName is NULL, EXIT." && exit;
+[ -z ${_DirName} ] && LOG_INFO "ERROR : DirName is NULL, EXIT." && exit;
 
 # 清理缓存区
 if test 1 == "$FORCE";then
@@ -93,11 +104,83 @@ elif [ -f ${_DirName}/${_SpecFile} ];then
     cp -f     ${_DirName}/${_SpecFile} ${RPMTOP}/SPECS/${_SpecFile}
 fi
 
+
+function sedchernic_release_repo(){
+    #yum clean all;yum makecache;yum repolist;
+    REPO=chernic-release.repo
+    if [ -f /etc/yum.repos.d/${REPO} ];then
+        LOG_INFO "sed /etc/yum.repos.d/${REPO} : " $LogFile;
+        LOG_WARN "  baseurl=file://$(pwd) " $LogFile;
+        sed -i "s@^baseurl.*@baseurl=file://$(pwd)@"    /etc/yum.repos.d/${REPO}
+
+        LOG_INFO "sed /etc/yum.repos.d/${REPO} : " $LogFile;
+        LOG_WARN "  enabled=1" $LogFile;
+        sed -i "s@^enabled.*@enabled=1@"                /etc/yum.repos.d/${REPO}
+    fi
+};
+
+function runcheckCommandcreaterepo(){
+    cd ${__THisDir}
+    LOG_INFO " ********************************************************"
+    LOG_INFO " * cd ${__THisDir}"
+    LOG_INFO " * checkCommand createrepo"
+    LOG_INFO " *"
+    which createrepo
+    checkCommand createrepo; 
+    if [ $? != 0 ];
+    then
+        if [ -f RPMS/createlocalrepo/createlocalrepo.sh ];
+        then
+            LOG_INFO " ********************************************************"
+            LOG_INFO " * cd RPMS/createlocalrepo/"
+            LOG_INFO " * install createrepo"
+            LOG_INFO " *"
+            cd RPMS/createlocalrepo/
+            sh createlocalrepo.sh
+            cd -
+        else
+            LOG_INFO "error: createlocalrepo can not be found to install."
+            exit 1
+        fi
+    fi
+};
+runcheckCommandcreaterepo;
+function runCheckAndInstallrpmbuild(){
+    cd ${__THisDir}
+    LOG_INFO " ********************************************************"
+    LOG_INFO " * cd ${__THisDir}"
+    LOG_INFO " * checkCommand rpmbuild"
+    LOG_INFO " *"
+    which rpmbuild
+    checkCommand rpmbuild; 
+    if [ $? != 0 ];
+    then
+        if [ -d RPMS/${system_flag}.rpm-build/ ];
+        then
+            LOG_INFO " ********************************************************"
+            LOG_INFO " * cd RPMS/${system_flag}.rpm-build/"
+            LOG_INFO " * install rpmbuild"
+            LOG_INFO " *"
+            cd RPMS/${system_flag}.rpm-build/
+            sedchernic_release_repo;
+
+            createrepo -v  .
+
+            yum -y install rpm-build
+            cd -
+        else
+            LOG_INFO "error: createlocalrepo can not be found to install."
+            exit 1
+        fi
+
+    fi
+};
+runCheckAndInstallrpmbuild;
+
 # 构建RPM
-cd ${RPMTOP}/SPECS && [ -z ${_SpecFile} ] && echo "ERROR : ${_SpecFile} = is NOT exited."
+cd ${RPMTOP}/SPECS && [ -z ${_SpecFile} ] && LOG_INFO "ERROR : ${_SpecFile} = is NOT exited."
 
 # 我们可以一步步试，先rpmbuild -bp ,再-bc 再-bi 如果没问题，rpmbuild -ba 生成src包与二进制包
-
 # -D, --define='MACRO EXPR' 将 MACRO 宏的值定义为 EXPR
 rpmbuild -ba  ${_SpecFile} --define="_topdir ${RPMTOP}"
 

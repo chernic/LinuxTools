@@ -32,14 +32,10 @@ INSTALL = install
 INSTALL_PROG = $(INSTALL) -m 777
 INSTALL_DATA = $(INSTALL) -m 644
 
-ARCH:=$(shell uname -m)
-BIT32:=i686
-BIT64:=x86_64
-
+SYS_ARCH:=$(shell uname -m)
+SYS_VER=$(uname -r | cut -d. -f4)
 
 file_initd   = focustar_totif
-DATA_OF_PROG_32 = bin/TOTIFMain_32
-DATA_OF_PROG_64 = bin/TOTIFMain_64
 DATA_OF_PROG = bin/TOTIFMain
 DATA_OF_DEAM = bin/daemonTOTIF
 
@@ -90,18 +86,13 @@ install: $(SDIRS)
 
 	$(INSTALL_DATA) $(DATA_OF_DATA) $(DESTDIR)$(prefix)/$(DATA_OF_DATA)
 
-ifeq ($(ARCH),$(BIT64))
-	@echo x86_64
-	$(INSTALL_PROG) $(DATA_OF_PROG_64) $(DESTDIR)$(prefix)/$(DATA_OF_PROG)
-else
-	@echo i686
-	$(INSTALL_PROG) $(DATA_OF_PROG_32) $(DESTDIR)$(prefix)/$(DATA_OF_PROG)
-endif
+	@echo TOTIFMain.$(SYS_ARCH)
+	$(INSTALL_PROG) bin/TOTIFMain.$(SYS_ARCH)   $(DESTDIR)$(prefix)/$(DATA_OF_PROG)
 
-	$(INSTALL_PROG) $(DATA_OF_DEAM) $(DESTDIR)$(prefix)/$(DATA_OF_DEAM)
-	$(INSTALL_PROG) $(DATA_OF_SERV1) $(DESTDIR)$(prefix)/$(DATA_OF_SERV1)
-	$(INSTALL_PROG) $(DATA_OF_SERV2) $(DESTDIR)$(prefix)/$(DATA_OF_SERV2)
-	$(INSTALL_PROG) $(DATA_OF_LOCAL) $(DESTDIR)$(prefix)/$(DATA_OF_LOCAL)
+	$(INSTALL_PROG) $(DATA_OF_DEAM)             $(DESTDIR)$(prefix)/$(DATA_OF_DEAM)
+	$(INSTALL_PROG) $(DATA_OF_SERV1)            $(DESTDIR)$(prefix)/$(DATA_OF_SERV1)
+	$(INSTALL_PROG) $(DATA_OF_SERV2)            $(DESTDIR)$(prefix)/$(DATA_OF_SERV2)
+	$(INSTALL_PROG) $(DATA_OF_LOCAL)            $(DESTDIR)$(prefix)/$(DATA_OF_LOCAL)
 
 	cp -f init.d/$(file_initd)  $(DESTDIR)/etc/init.d/$(file_initd)
 
