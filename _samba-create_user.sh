@@ -1,11 +1,14 @@
 #!/bin/sh
 
-# # @Chernic : 为samba增加用户
-# # @changelog
-# ## 2018-09-26 Chernic <chernic AT qq.com>
-# #- 增加对/home/focustar的权限的修改
-# ## 2018-09-12 Chernic <chernic AT qq.com>
-# #- 增加changelog
+# @Chernic : 为samba增加用户
+# @changelog
+## 2018-10-19 Chernic <chernic AT qq.com>
+#- chernic 加到focustar用户组
+#- 隐藏文件
+## 2018-09-26 Chernic <chernic AT qq.com>
+#- 增加对/home/focustar的权限的修改
+## 2018-09-12 Chernic <chernic AT qq.com>
+#- 增加changelog
 
 yum install samba
 yum install samba-client
@@ -19,15 +22,16 @@ groupadd focustar
 useradd focustar -g focustar
 # useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
 pdbedit -a -u focustar
-chmod 766 /home/focustar
-
+chmod 776 /home/focustar
 
 groupadd chernic
 useradd chernic -g chernic
+useradd chernic -g focustar
 # useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
 pdbedit -a -u chernic
-chmod 766 /home/chernic
+chmod 776 /home/chernic
 
+[ -f /etc/samba/smb.conf ] && mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
 
 cat >> /etc/samba/smb.conf << EOF
 # This is the main Samba configuration file. You should read the
@@ -319,27 +323,25 @@ cat >> /etc/samba/smb.conf << EOF
 ;	printable = no
 ;	write list = +staff
 
-
 [focustar]
 	comment = focustar Directories
 	path = /home/focustar
 	browseable = yes
 	writable = yes
+	veto files=/.*/
 ;	valid users = %S
 ;	valid users = MYDOMAIN\%S
-	
-    
+
 [chernic]
 	comment = Chernic Directories
 	path = /home/chernic
 	browseable = yes
 	writable = yes
+	veto files=/.*/
 ;	valid users = %S
 ;	valid users = MYDOMAIN\%S
 
 EOF
-
-
 
 # ============================================================================================================
 # ============================================================================================================
