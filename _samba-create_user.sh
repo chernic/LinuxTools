@@ -28,8 +28,6 @@
 # pdbedit -a -u chernic
 # chmod 766 /home/chernic
 
-pause
-pause
 
 cat >> /etc/samba/smb.conf << EOF
 # This is the main Samba configuration file. You should read the
