@@ -3,7 +3,7 @@
 # @Chernic : 为samba增加用户
 # @changelog
 ## 2018-10-19 Chernic <chernic AT qq.com>
-#- chernic 加到focustar用户组
+#- chernic 加到focustar用户组(优化)
 #- 隐藏文件
 ## 2018-09-26 Chernic <chernic AT qq.com>
 #- 增加对/home/focustar的权限的修改
@@ -19,16 +19,15 @@ smbclient -L //192.168.1.101 -Ufocustar
 
 
 groupadd focustar
-useradd focustar -g focustar
-# useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
-pdbedit -a -u focustar
+useradd -g focustar focustar        # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+usermod -a -G focustar focustar     # 把用户添加进入某个组(s）
+pdbedit -a -u focustar              # samba 添加用户
 chmod 776 /home/focustar
 
 groupadd chernic
-useradd chernic -g chernic
-useradd chernic -g focustar
-# useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
-pdbedit -a -u chernic
+useradd -g chernic  chernic         # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+usermod -a -G focustar chernic      ## 把用户添加进入某个组(s）
+pdbedit -a -u chernic               # samba 添加用户
 chmod 776 /home/chernic
 
 [ -f /etc/samba/smb.conf ] && mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
