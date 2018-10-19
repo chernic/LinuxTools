@@ -7,26 +7,26 @@
 # ## 2018-09-12 Chernic <chernic AT qq.com>
 # #- 增加changelog
 
-# yum install samba
-# yum install samba-client
+yum install samba
+yum install samba-client
 
-# smbclient -L //192.168.1.101 -Ufocustar
-# # Enter focustar's password: 
-# # session setup failed: NT_STATUS_LOGON_FAILURE
-
-
-# groupadd focustar
-# useradd focustar -g focustar
-# # useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
-# pdbedit -a -u focustar
-# chmod 766 /home/focustar
+smbclient -L //192.168.1.101 -Ufocustar
+# Enter focustar's password: 
+# session setup failed: NT_STATUS_LOGON_FAILURE
 
 
-# groupadd chernic
-# useradd chernic -g chernic
-# # useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
-# pdbedit -a -u chernic
-# chmod 766 /home/chernic
+groupadd focustar
+useradd focustar -g focustar
+# useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+pdbedit -a -u focustar
+chmod 766 /home/focustar
+
+
+groupadd chernic
+useradd chernic -g chernic
+# useradd：focustar 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+pdbedit -a -u chernic
+chmod 766 /home/chernic
 
 
 cat >> /etc/samba/smb.conf << EOF
