@@ -92,7 +92,7 @@ ChangeOrAppendTags2SmbConf(){
     ChangeOrAppendOneTag  $1  $2   "	comment"       "${Smb_Comment}"
 }
 
-PathSmbConf="./etc/smb.conf"
+PathSmbConf="./etc/samba/smb.conf"
 FatherPath="chernic"
 Smb_Comment="Chernic Directories"
 Smb_Path="\/home\/chernic"
@@ -101,10 +101,10 @@ Smb_Writable="yes"
 Smb_Veto_files="\/.\*\/"
 Smb_Valid_users="@focustar focustar"
 
-# if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
+if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
     echo "[更新] samba 的配置信息 $PathSmbConf"
     ChangeOrAppendTags2SmbConf  ${PathSmbConf}  ${FatherPath}
-# else
-    # echo "[增加] samba 的配置信息 $PathSmbConf"
-    # GLOBALAppendTags2SmbConf   ${PathSmbConf}
-# fi
+else
+    echo "[增加] samba 的配置信息 $PathSmbConf"
+    GLOBALAppendTags2SmbConf   ${PathSmbConf}
+fi
