@@ -41,15 +41,14 @@ chkconfig network on
 service network restart
 ping mirrors.163.com
 
-
-/etc/sysconfig/network
+vim /etc/sysconfig/network
 NETWORKING=yes
 HOSTNAME=el64cc
 GATEWAY=192.168.2.1
 
-/etc/sysconfig/network-scripts/ifcfg-eth0
+vim /etc/sysconfig/network-scripts/ifcfg-eth0
 DEVICE=eth0
-HWADDR=00:0C:29:3F:AB:CD
+HWADDR=00:0C:29:3F:AB:CD:
 TYPE=Ethernet
 UUID=04f18845-86b3-4ac2-bd6b-ca9a3d8e534f
 ONBOOT=yes
@@ -61,6 +60,6 @@ IPV6INIT=no
 DNS1=192.168.2.1
 DNS2=233.5.5.5
 
-/etc/resolv.conf
+vim /etc/resolv.conf
 nameserver 192.168.2.1
 nameserver 233.5.5.5

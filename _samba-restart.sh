@@ -9,7 +9,10 @@ service smb restart;
 service nmb restart;
 
 chkconfig smb on
+chkconfig nmb on
 
 service iptables stop
 chkconfig iptables off
 setenforce 0
+
+chkconfig --list
