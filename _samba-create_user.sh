@@ -116,7 +116,7 @@ ChangeTagOne(){
     sed -i  ${ss}","${sd}" s/$3.*/`printf %-16s "$3"`= $4/" $1
 }
 ChangeOrAppendOneTag(){
-    ss=$(grep -n '^\['$2'\]' $1 | cut -d ':' -f 1)                             # 先搜索是否有标签
+    ss=$(grep -n '^\['$2'\]' $1 | tail -n 1 | cut -d ':' -f 1)                             # 先搜索是否有标签
     sd=$(sed -n "$ss, /^\[.*\]/=" $1 | tail -n 1)                              # 搜不到标签后标签, 则自动等于行末
     [ -z $ss ]  && LOG_ERROR "$2 is not found in $1. EXIT!" $LogFile && exit 1
 

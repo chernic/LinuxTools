@@ -92,7 +92,8 @@ ChangeOrAppendTags2SmbConf(){
     ChangeOrAppendOneTag  $1  $2   "	comment"       "${Smb_Comment}"
 }
 
-PathSmbConf="./etc/samba/smb.conf"
+PathSmbConf="./etc/smb.conf"
+# PathSmbConf="./etc/samba/smb.conf"
 FatherPath="chernic"
 Smb_Comment="Chernic Directories"
 Smb_Path="\/home\/chernic"
