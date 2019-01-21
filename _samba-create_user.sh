@@ -212,9 +212,10 @@ Mypdbedit(){
     echo "------- 增加 samba 用户 focustar  并设置密码 focustar"
     echo -e "$user_passwd\n$user_passwd" | pdbedit -t -a -u focustar
 
+    user_passwd=chernic
     echo ""
-    echo "------- 增加 samba 用户 chernic  并设置密码 focustar"
-    echo -e "$user_passwd\n$user_passwd" | pdbedit -t -a -u chernic
+    echo "------- 增加 samba 用户 chernic  并设置密码 chernic"
+    echo -e "$chernic\n$chernic" | pdbedit -t -a -u chernic
 
     echo ""
     echo "------- 列出所有 samba 用户"
