@@ -203,6 +203,29 @@ else
     GLOBALAppendTags2SmbConf   ${PathSmbConf}
 fi
 
+FatherPath="www"
+Smb_Comment="www Directories"
+Smb_Path="\/var\/www"
+if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
+    echo "[更新] samba 的配置信息 $PathSmbConf"
+    ChangeOrAppendTags2SmbConf  ${PathSmbConf}  ${FatherPath}
+else
+    echo "[增加] samba 的配置信息 $PathSmbConf"
+    GLOBALAppendTags2SmbConf   ${PathSmbConf}
+fi
+
+FatherPath="etc"
+Smb_Comment="etc Directories"
+Smb_Path="\/etc"
+chmod +rwx /etc
+if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
+    echo "[更新] samba 的配置信息 $PathSmbConf"
+    ChangeOrAppendTags2SmbConf  ${PathSmbConf}  ${FatherPath}
+else
+    echo "[增加] samba 的配置信息 $PathSmbConf"
+    GLOBALAppendTags2SmbConf   ${PathSmbConf}
+fi
+
 Mypdbedit(){
     #   [root@tas-compile home]# pdbedit -h
     #   Usage: [OPTION...]
@@ -222,3 +245,16 @@ Mypdbedit(){
     pdbedit -L
 };
 Mypdbedit
+
+[ -f _samba-restart.sh ] && sh _samba-restart.sh
+
+
+echo "已完成以下操作"
+echo "* 安装Samba"
+echo "* [更新] samba 的配置信息 focustar"
+echo "* [更新] samba 的配置信息 chernic"
+echo "* [更新] samba 的配置信息 etc"
+echo "* [增加] samba 用户 focustar"
+echo "* [增加] samba 用户 chernic"
+echo "* [重启] nmb "
+echo "* [重启] samba "
