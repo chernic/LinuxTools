@@ -14,7 +14,6 @@
 ## 2018-09-12 Chernic <chernic AT qq.com>
 #- 增加changelog
 
-
 IS_LOADED_LOG_FUNC=true;
 # @brief    写日志到文件。
 # @param1    LogLevel（字符串）    日志级别（字符串）
@@ -168,10 +167,9 @@ ChangeOrAppendTags2SmbConf(){
     ChangeOrAppendOneTag  $1  $2   "	comment"       "${Smb_Comment}"
 }
 
-
 YumInstallSamba(){
-    yum install samba
-    yum install samba-client
+    yum -y install samba
+    yum -y install samba-client
     # smbclient -L //192.168.1.101 -Ufocustar
     # Enter focustar's password: 
     # session setup failed: NT_STATUS_LOGON_FAILURE
@@ -181,15 +179,17 @@ YumInstallSamba(){
     chmod 776 /home/focustar
     groupadd chernic
     useradd -g    chernic  chernic      # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+    useradd -g    chernic  chernic      # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
     usermod -a -G focustar chernic      # 把用户添加进入某个组(s）
     chmod 777 /home/chernic
+    touch /home/chernic/ReadMe
 }; 
 YumInstallSamba
 
 PathSmbConf="/etc/samba/smb.conf"
 FatherPath="chernic"
 Smb_Comment="Chernic Directories"
-Smb_Path="\/home\/chernic"
+Smb_Path="/home/chernic"
 Smb_Browseable="yes"
 Smb_Writable="yes"
 Smb_Veto_files="\/.\*\/"
@@ -205,7 +205,7 @@ fi
 
 FatherPath="www"
 Smb_Comment="www Directories"
-Smb_Path="\/var\/www"
+Smb_Path="/var/www"
 if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
     echo "[更新] samba 的配置信息 $PathSmbConf"
     ChangeOrAppendTags2SmbConf  ${PathSmbConf}  ${FatherPath}
@@ -216,7 +216,7 @@ fi
 
 FatherPath="etc"
 Smb_Comment="etc Directories"
-Smb_Path="\/etc"
+Smb_Path="/etc"
 chmod +rwx /etc
 if $(IsTagExisted  ${PathSmbConf} ${FatherPath}) ;then
     echo "[更新] samba 的配置信息 $PathSmbConf"
@@ -247,7 +247,6 @@ Mypdbedit(){
 Mypdbedit
 
 [ -f _samba-restart.sh ] && sh _samba-restart.sh
-
 
 echo "已完成以下操作"
 echo "* 安装Samba"
