@@ -193,7 +193,7 @@ Adduser(){
     
     passwd chernic
 }; 
-# Adduser
+Adduser
 
 
 PathSmbConf="/etc/samba/smb.conf"
