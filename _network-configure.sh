@@ -1,9 +1,14 @@
-﻿https://mirrors.tuna.tsinghua.edu.cn/centos/6/isos/i386/CentOS-6.10-i386-bin-DVD1.iso
-
-#!/bin/sh
-
+﻿#!/bin/sh
 # @Chernic : linux基本网络配置, 给初装的机器配置使用, 常手动配置
 # @changelog
+## 2019-05-07 Chernic <chernic AT qq.com>
+# 防火墙       iptables
+# 防火墙       ip6tables
+# 防火墙       setenforce
+# 默认路由     route
+# ntp同步时间  ntpdate
+# 调整硬件时间 hwclock
+# 管理服务     chkconfig
 ## 2018-09-29 Chernic <chernic AT qq.com>
 #- 增加配置前实现检IP未被占用
 #- 增加一些大纲式注释
@@ -76,22 +81,44 @@ service nmb restart
 
 
 # RHEL6.4 网络配置
-# 先关闭防火墙
+# 关闭防火墙
 /etc/init.d/iptables stop
 /etc/init.d/ip6tables stop
-chkconfig iptables off 
-chkconfig ip6tables off 
-chkconfig --level 2345 iptables off 
-chkconfig --level 2345 ip6tables off 
-
-
 setenforce 0
+
 
 #https://www.cnblogs.com/operationhome/p/10207257.html
 # 添加默认路由：
 route add default  gw  192.168.2.1
-
+# 添加默认路由：为开启启动
 cat /etc/sysconfig/network-scripts/route-eth0
-
 echo "192.168.1.0/24 via 192.168.2.1 dev eth0" > /etc/sysconfig/network-scripts/route-eth0
 echo  "" >> /etc/sysconfig/network-scripts/route-eth0
+
+
+# https://www.cnblogs.com/itxiongwei/p/5556558.html
+# 启用ntp自动同步虚拟机时间
+yum install -y ntpdate
+ # [root@buildTAS TAS]# ntpdate time.nist.gov
+# 7 May 11:53:53 ntpdate[15193]: the NTP socket is in use, exiting
+service ntpd stop
+ntpdate ntp.api.bz
+service ntpd start
+
+
+# 1. 同步时间成功后调整硬件时间
+# 2. 执行成功后， 查看系统硬件时间（不出意外的话，现在date和hwclock现实的时间均为internet时间）
+hwclock -w
+date
+hwclock
+
+
+# 设置以上所有服务
+#
+chkconfig --level 2345 iptables off 
+chkconfig --level 2345 ip6tables off 
+chkconfig --level 2345 ntpd on 
+
+chkconfig --list iptables
+chkconfig --list ip6tables
+chkconfig --list ntpd
