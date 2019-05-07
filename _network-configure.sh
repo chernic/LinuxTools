@@ -1,4 +1,6 @@
-﻿#!/bin/sh
+﻿https://mirrors.tuna.tsinghua.edu.cn/centos/6/isos/i386/CentOS-6.10-i386-bin-DVD1.iso
+
+#!/bin/sh
 
 # @Chernic : linux基本网络配置, 给初装的机器配置使用, 常手动配置
 # @changelog
@@ -34,7 +36,7 @@ IPADDR
 GATEWAY   (必须)
 DNS1      (必须)
 DNS2      (必须)
-
+ cd 
 #########################################################
 # 检验配置是否成功
 chkconfig network on
@@ -45,6 +47,7 @@ vim /etc/sysconfig/network
 NETWORKING=yes
 HOSTNAME=el64cc
 GATEWAY=192.168.2.1
+
 
 vim /etc/sysconfig/network-scripts/ifcfg-eth0
 DEVICE=eth0
@@ -63,3 +66,32 @@ DNS2=233.5.5.5
 vim /etc/resolv.conf
 nameserver 192.168.2.1
 nameserver 233.5.5.5
+
+# 2018-11-2 修改完之后要重启. 可能只需重启某些服务即可, 但是...
+
+chkconfig smb on
+chkconfig nmb on
+service smb restart
+service nmb restart
+
+
+# RHEL6.4 网络配置
+# 先关闭防火墙
+/etc/init.d/iptables stop
+/etc/init.d/ip6tables stop
+chkconfig iptables off 
+chkconfig ip6tables off 
+chkconfig --level 2345 iptables off 
+chkconfig --level 2345 ip6tables off 
+
+
+setenforce 0
+
+#https://www.cnblogs.com/operationhome/p/10207257.html
+# 添加默认路由：
+route add default  gw  192.168.2.1
+
+cat /etc/sysconfig/network-scripts/route-eth0
+
+echo "192.168.1.0/24 via 192.168.2.1 dev eth0" > /etc/sysconfig/network-scripts/route-eth0
+echo  "" >> /etc/sysconfig/network-scripts/route-eth0
