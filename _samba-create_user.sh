@@ -2,6 +2,9 @@
 
 # @Chernic : 为samba增加用户
 # @changelog
+## 2019-05-07 Chernic <chernic AT qq.com>
+# 不再修改focustar等用户
+# 增加中断要修改chernic 密码
 ## 2018-10-26 Chernic <chernic AT qq.com>
 #- 增加log
 #- 增加定量修改/etc/samba/smb.conf
@@ -173,18 +176,25 @@ YumInstallSamba(){
     # smbclient -L //192.168.1.101 -Ufocustar
     # Enter focustar's password: 
     # session setup failed: NT_STATUS_LOGON_FAILURE
-    groupadd focustar
-    useradd -g    focustar focustar     # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
-    usermod -a -G focustar focustar     # 把用户添加进入某个组(s）
+}; 
+YumInstallSamba
+
+Adduser(){
+    # groupadd focustar
+    # useradd -g    focustar focustar     # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
+    # usermod -a -G focustar focustar     # 把用户添加进入某个组(s）
     chmod 776 /home/focustar
+
     groupadd chernic
-    useradd -g    chernic  chernic      # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
     useradd -g    chernic  chernic      # 组已经存在 - 如果您想将此用户加入到该组，请使用 -g 参数。
     usermod -a -G focustar chernic      # 把用户添加进入某个组(s）
     chmod 777 /home/chernic
     touch /home/chernic/ReadMe
+    
+    passwd chernic
 }; 
-YumInstallSamba
+# Adduser
+
 
 PathSmbConf="/etc/samba/smb.conf"
 FatherPath="chernic"
